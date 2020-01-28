@@ -1,58 +1,80 @@
-package UI;
+package common.layout;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+// Пример использования менеджера расположения GridBagLayoutTest
 
-/**
- * UI.GridBagLayoutTest
- *
- * @author Eugene Matyushkin
- */
-public class GridBagLayoutTest extends JFrame {
+import java.awt.*; 
+import javax.swing.JButton; 
+import javax.swing.JFrame; 
 
-    public GridBagLayoutTest() {
-        super("GridBagLayout");
-        final JPanel content = new JPanel(new GridBagLayout());
-        JLabel lblImage = new JLabel("kyl");
-        content.add(lblImage, new GridBagConstraints(0, 0, 1, 2, 0, 0, GridBagConstraints.NORTH,
-                GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-        content.add(new JLabel("First name:"), new GridBagConstraints(1, 0, 1, 1, 0, 0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 0, 5, 0), 0, 0));
-        content.add(new JTextField("<enter first name here>", 20), new GridBagConstraints(2, 0, 2, 1, 1, 0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-        content.add(new JLabel("Last name:"), new GridBagConstraints(1, 1, 1, 1, 0, 1,
-                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 0, 0));
-        content.add(new JTextField("<enter last name here>", 20), new GridBagConstraints(2, 1, 2, 1, 1, 1,
-                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 5), 0, 0));
-        JButton btnOk = new JButton("Ok");
-        JButton btnCancel = new JButton("Cancel");
-        btnOk.setPreferredSize(btnCancel.getPreferredSize());
-        btnOk.setMinimumSize(btnOk.getPreferredSize());
-        content.add(btnOk, new GridBagConstraints(2, 2, 1, 1, 1, 0, GridBagConstraints.LINE_END,
-                GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
-        content.add(btnCancel, new GridBagConstraints(3, 2, 1, 1, 0, 0, GridBagConstraints.CENTER,
-                GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
-        final JCheckBox chkOrientation = new JCheckBox("Right-to-left orientation");
-        chkOrientation.addChangeListener(new ChangeListener(){
-            public void stateChanged(ChangeEvent e){
-                content.setComponentOrientation( chkOrientation.isSelected() ?
-                        ComponentOrientation.RIGHT_TO_LEFT :
-                        ComponentOrientation.LEFT_TO_RIGHT);
-                content.doLayout();
-            }
-        });
-        content.setBorder(BorderFactory.createLineBorder(Color.red));
-        getContentPane().add(content, BorderLayout.CENTER);
-        getContentPane().add(chkOrientation, BorderLayout.SOUTH);
-        setSize(410, 220);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+public class GridBagLayoutTest
+{
+	/**
+	 * Метод определения интерфейса панели
+	 * @param container - панель содержимого
+	 */
+    public static void createPanelUI(Container container)
+    { 
+        JButton button; 
 
-    public static void main(String[] args) {
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        new GridBagLayoutTest().setVisible(true);
-    }
+        container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT); 
+ 
+        container.setLayout(new GridBagLayout()); 
+        GridBagConstraints constraints = new GridBagConstraints(); 
+         
+        // По умолчанию натуральная высота, максимальная ширина 
+        constraints.fill = GridBagConstraints.HORIZONTAL; 
+        constraints.weightx = 0.5;
+        constraints.gridy   = 0  ;  // нулевая ячейка таблицы по вертикали    
+        
+        button = new JButton("Школа"); 
+ 
+        constraints.fill = GridBagConstraints.HORIZONTAL; 
+        constraints.gridx = 0;      // нулевая ячейка таблицы по горизонтали
+        container.add(button, constraints); 
+ 
+        button = new JButton("Институт"); 
+        constraints.fill = GridBagConstraints.HORIZONTAL; 
+        constraints.gridx = 1;      // первая ячейка таблицы по горизонтали
+        container.add(button, constraints); 
+         
+        button = new JButton("Академия"); 
+        constraints.fill = GridBagConstraints.HORIZONTAL; 
+        constraints.gridx = 2;      // вторая ячейка таблицы по горизонтали
+        container.add(button, constraints); 
+ 
+        button = new JButton("Высокая кнопка размером в 2 ячейки"); 
+        constraints.fill = GridBagConstraints.HORIZONTAL; 
+        constraints.ipady     = 45;   // кнопка высокая 
+        constraints.weightx   = 0.0; 
+        constraints.gridwidth = 2;    // размер кнопки в две ячейки
+        constraints.gridx     = 0;    // нулевая ячейка по горизонтали
+        constraints.gridy     = 1;    // первая ячейка по вертикали
+        container.add(button, constraints); 
+ 
+        button = new JButton("Семья"); 
+        constraints.fill = GridBagConstraints.HORIZONTAL; 
+        constraints.ipady     = 0;    // установить первоначальный размер кнопки 
+        constraints.weighty   = 1.0;  // установить отступ
+                                      // установить кнопку в конец окна
+        constraints.anchor    = GridBagConstraints.PAGE_END; 
+        constraints.insets    = new Insets(5, 0, 0, 0);  // граница ячейки по Y 
+        constraints.gridwidth = 2;    // размер кнопки в 2 ячейки 
+        constraints.gridx     = 1;    // первая ячейка таблицы по горизонтали
+        constraints.gridy     = 2;    // вторая ячейка по вертикали
+        container.add(button, constraints);  
+    } 
+
+    public static void main(String[] args)
+    {
+        // Создание окна 
+        JFrame frame = new JFrame("GridBagLayoutTest"); 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+         
+        // Определить панель содержания 
+        createPanelUI(frame.getContentPane()); 
+ 
+        // Показать окно 
+        frame.pack(); 
+        frame.setVisible(true); 
+    } 
 }
