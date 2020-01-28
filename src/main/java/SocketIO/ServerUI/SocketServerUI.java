@@ -45,7 +45,7 @@ public class SocketServerUI extends JFrame {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    textAreaToShowSocketMessages.setText("Ошибка при создании сокет сервера с портом: " + portNumber);
+                    textAreaToShowSocketMessages.setText("Ошибка при создании сокет сервера с портом: " + portNumber + "\nс ошибкой: "+ e.toString());
                 }
             });
         }
