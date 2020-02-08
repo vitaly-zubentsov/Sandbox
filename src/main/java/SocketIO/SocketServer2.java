@@ -1,12 +1,12 @@
-package SocketIO.ServerUI;
+package SocketIO;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class SocketServer implements Runnable {
+public class SocketServer2 implements Runnable {
 
     //Реализуем шаблон Singleton
-    private static volatile SocketServer instance = null;
+    private static volatile SocketServer2 instance = null;
 
     //Порт, на который сервер принимает соединения
     private int serverPort;
@@ -14,15 +14,15 @@ public class SocketServer implements Runnable {
     //Сокет, который обрабатывает соединения на сервере
     private ServerSocket serverSocket = null;
 
-    private SocketServer(int serverPort) {
+    private SocketServer2(int serverPort) {
         this.serverPort = serverPort;
     }
 
-    public static SocketServer getServer(int serverPort) {
+    public static SocketServer2 getServer(int serverPort) {
         if (instance == null) {
-            synchronized (SocketServer.class) {
+            synchronized (SocketServer2.class) {
                 if (instance == null) {
-                    instance = new SocketServer(serverPort);
+                    instance = new SocketServer2(serverPort);
                 }
             }
         }
@@ -40,11 +40,11 @@ public class SocketServer implements Runnable {
             //старт приёма соединений на сервер
             while (true) {
 
-                ConnectionWorker worker = null;
+                ConnectionWorker2 worker = null;
 
                 try {
                     //Ждём нового соединения
-                    worker = new ConnectionWorker(serverSocket.accept());
+                    worker = new ConnectionWorker2(serverSocket.accept());
                     System.out.println("Get client connection");
 
                     //Создаётся новый поток, в котором обрабатывается соединение
@@ -70,10 +70,10 @@ public class SocketServer implements Runnable {
         }
     }
 
-    public static void main (String[] args) {
+/*    public static void main (String[] args) {
         SocketServer socketServer = SocketServer.getServer(4999);
         Thread t = new Thread(socketServer);
         t.start();
-    }
+    }*/
 
 }

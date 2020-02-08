@@ -1,17 +1,17 @@
-package SocketIO.ServerUI;
+package SocketIO;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-public class ConnectionWorker implements Runnable {
+public class ConnectionWorker2 implements Runnable {
     // Сокет, через который происходит обмен данными с клиентом
     private Socket clientSocket = null;
 
     // Входной поток, через который получаем данные с сокета
     private InputStream inputStream = null;
 
-    public ConnectionWorker(Socket socket) {
+    public ConnectionWorker2(Socket socket) {
         clientSocket = socket;
     }
 
@@ -41,7 +41,7 @@ public class ConnectionWorker implements Runnable {
                 if (count > 0) {
                     System.out.println(new String(buffer, 0, count));
                 } else {
-                    //если мы получили -1, занчит прервался наш поток с данными *
+                    //если мы получили -1, занчит прервался наш поток с данными и соединение надо закрыть.
                     if (count == -1) {
                         System.out.println("initialization operation to close this socket");
                         clientSocket.close();
