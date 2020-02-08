@@ -15,8 +15,6 @@ public class SocketServerUI extends JFrame {
 
     int portNumber;
 
-    private static final long serialVersionUID = 1L;
-
     SocketServerUI() throws IOException {
         super("Messages from client");
 
@@ -36,6 +34,7 @@ public class SocketServerUI extends JFrame {
         setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);
+
 
         ServerSocket ss = null;
         try {
@@ -59,8 +58,7 @@ public class SocketServerUI extends JFrame {
         BufferedReader bf = new BufferedReader(in);
 
         String str = bf.readLine();
-
-        SwingUtilities.invokeLater(new Runnable() {
+                SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 textAreaToShowSocketMessages.setText("Client says : " + str);
