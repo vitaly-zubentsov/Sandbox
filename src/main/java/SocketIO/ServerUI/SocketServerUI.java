@@ -12,13 +12,14 @@ import java.net.Socket;
 public class SocketServerUI extends JFrame {
 
     int portNumber;
+    static JTextArea textAreaToShowSocketMessages;
 
     SocketServerUI() throws IOException {
         super("Messages from client");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Создаём текстовое поле с возможностью прокрутки содержимого
-        JTextArea textAreaToShowSocketMessages = new JTextArea();
+        textAreaToShowSocketMessages = new JTextArea();
         JScrollPane scrollToShowParsedMessages = new JScrollPane(textAreaToShowSocketMessages);
 
         //Размещаем текстовое поле
@@ -34,7 +35,7 @@ public class SocketServerUI extends JFrame {
         setVisible(true);
 
         // Запускаем сокет сервер используя порт полученный из ui в отдельном потоке
-        SocketServer socketServer = SocketServer.getServer(portNumber, textAreaToShowSocketMessages);
+        SocketServer socketServer = SocketServer.getServer(portNumber);
         Thread t = new Thread(socketServer);
         t.start();
 
@@ -77,7 +78,7 @@ public class SocketServerUI extends JFrame {
 
         private static volatile SocketServer instance = null;
 
-        JTextArea textAreaToShowSocketMessages = null;
+
         //Порт, на который сервер принимает соединения
 
         private int serverPort;
@@ -85,16 +86,16 @@ public class SocketServerUI extends JFrame {
 
         private ServerSocket serverSocket = null;
 
-        private SocketServer(int serverPort, JTextArea textAreaToShowSocketMessages) {
+        private SocketServer(int serverPort) {
             this.serverPort = serverPort;
-            this.textAreaToShowSocketMessages = textAreaToShowSocketMessages;
+
         }
 
-        public static SocketServer getServer(int serverPort, JTextArea textAreaToShowSocketMessages) {
+        public static SocketServer getServer(int serverPort) {
             if (instance == null) {
                 synchronized (SocketServer.class) {
                     if (instance == null) {
-                        instance = new SocketServer(serverPort, textAreaToShowSocketMessages);
+                        instance = new SocketServer(serverPort);
                     }
                 }
             }
