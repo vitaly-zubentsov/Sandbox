@@ -43,7 +43,7 @@ public class SocketServerUI extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                textAreaToShowSocketMessages.setText("Client says : " /*+ str*/);
+                textAreaToShowSocketMessages.setText("Client says : ");
             }
         });
     }
