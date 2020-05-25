@@ -10,6 +10,7 @@ public class Program {
 
         switcher.addElectricityListener(lamp);
         switcher.addElectricityListener(tvSet);
+        switcher.addElectricityListener(o-> System.out.println("Пожар"));
 
         switcher.switchON();
 
