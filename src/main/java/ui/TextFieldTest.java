@@ -1,4 +1,4 @@
-package UI;// Использование текстовых полей JTextField
+package ui;// Использование текстовых полей JTextField
 import javax.swing.*;
 
 import java.awt.Font;

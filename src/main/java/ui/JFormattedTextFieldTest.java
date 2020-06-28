@@ -1,4 +1,4 @@
-package UI;// Пример использования поля JFormattedTextField
+package ui;// Пример использования поля JFormattedTextField
 import javax.swing.*;
 import javax.swing.text.*;
 import java.text.*;

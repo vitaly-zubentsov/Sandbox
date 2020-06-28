@@ -1,4 +1,4 @@
-package UI;// Пример управление текстовым курсором
+package ui;// Пример управление текстовым курсором
 
 import javax.swing.*;
 import javax.swing.text.*;

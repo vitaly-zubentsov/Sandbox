@@ -1,4 +1,4 @@
-package UI;// Пример использования многострочных полей JTextArea
+package ui;// Пример использования многострочных полей JTextArea
 
 import javax.swing.*;
 import java.awt.Font;

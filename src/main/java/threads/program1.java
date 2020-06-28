@@ -1,4 +1,4 @@
-package Treads;
+package threads;
 class Incremenator extends Thread
 {
     private volatile boolean mIsIncrement = true;

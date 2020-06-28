@@ -1,4 +1,4 @@
-package UI;// Пример использования редактора JTextPane
+package ui;// Пример использования редактора JTextPane
 
 import java.awt.Color;
 import java.awt.Font;

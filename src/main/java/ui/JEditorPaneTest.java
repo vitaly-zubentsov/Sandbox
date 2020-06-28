@@ -1,4 +1,4 @@
-package UI;// Браузер на основе редактора JEditorPane
+package ui;// Браузер на основе редактора JEditorPane
 
 import java.awt.*;
 import java.awt.event.*;

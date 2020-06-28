@@ -1,4 +1,4 @@
-package Treads;
+package threads;
 
 import java.util.concurrent.locks.LockSupport;
 

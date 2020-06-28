@@ -1,4 +1,4 @@
-package UI;// Класс тестирования текстового поля с автоматическим заполнением
+package ui;// Класс тестирования текстового поля с автоматическим заполнением
 
 import java.util.ArrayList;
 import java.util.Arrays;
