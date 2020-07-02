@@ -1,6 +1,6 @@
 package threads.socket;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -9,6 +9,9 @@ public class SocketClients implements Runnable {
 
     InetAddress inetAddress;
     int portNumber;
+
+    InputStream inputStream;
+    OutputStream outputStream;
 
     SocketClients (InetAddress inetAddress, int portNumber) {
         this.inetAddress = inetAddress;
@@ -21,9 +24,16 @@ public class SocketClients implements Runnable {
 
             System.out.printf("Сокет клиент %s подключён\n", socketClient);
 
-            Thread.sleep(300000);
+            OutputStream outputStream = socketClient.getOutputStream();
+            Writer writer = new OutputStreamWriter(socketClient.getOutputStream());
+            writer.write(String.format("Hello from %s\n", Thread.currentThread().getName()));
+            writer.flush();
 
-            System.out.printf("Сокет клиент %s завершает подключение\n", socketClient);
+            while(true) {
+                Thread.sleep(3000);
+
+                System.out.printf("Сокет клиент %s завершает подключение\n", socketClient);
+            }
 
         }
     }
