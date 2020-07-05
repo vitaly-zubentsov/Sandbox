@@ -43,11 +43,14 @@ public final class SocketServer {
 
         while (true) {
             Socket socket = socketServer.server.accept();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+            try (
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
+            ) {
                 System.out.println(reader.readLine());
+                Thread.sleep(2000);
+                writer.write("Hello you too\n");
             }
-            Thread.sleep(2000);
-            System.out.println("Обработка запроса от клиента завершена");
         }
 
 
