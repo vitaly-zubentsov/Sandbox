@@ -10,9 +10,6 @@ public class SocketClients implements Runnable {
     InetAddress inetAddress;
     int portNumber;
 
-    InputStream inputStream;
-    OutputStream outputStream;
-
     SocketClients(InetAddress inetAddress, int portNumber) {
         this.inetAddress = inetAddress;
         this.portNumber = portNumber;
@@ -72,6 +69,5 @@ public class SocketClients implements Runnable {
         }
 
     }
-
 
 }

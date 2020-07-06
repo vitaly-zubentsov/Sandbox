@@ -7,7 +7,7 @@ import java.net.Socket;
 public final class SocketServer {
 
     private static SocketServer socketServer;
-    private ServerSocket server;
+    private final ServerSocket server;
 
     private SocketServer(int portNumber) throws IOException {
         server = new ServerSocket(portNumber);
@@ -23,7 +23,7 @@ public final class SocketServer {
     }
 
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
 
         int portNumber = 1076;
 
@@ -43,14 +43,24 @@ public final class SocketServer {
 
         while (true) {
             Socket socket = socketServer.server.accept();
-            try (
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
-            ) {
-                System.out.println(reader.readLine());
-                Thread.sleep(2000);
-                writer.write("Hello you too\n");
-            }
+            Thread thread = new Thread(() -> {
+                try (
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
+                ) {
+                    System.out.println(reader.readLine());
+                    Thread.sleep(2000);
+                    writer.write("Hello you too\n");
+                } catch (InterruptedException e) {
+                    System.out.println("Поток для обработки сокет соединения не смог кореектно отработать wait");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    System.out.println("Поток для обработки сокет соединения не смог кореектно отработать с потоками");
+                    e.printStackTrace();
+                }
+            });
+            thread.start();
+
         }
 
 
