@@ -1,4 +1,4 @@
-package socketIO.ServerUI;
+package socket;
 
 import javax.swing.*;
 import java.awt.*;
