@@ -25,7 +25,7 @@ public class StandardLibraries {
         double areaOfFunction2 = Integral.calculatingInMultiThreadWithThreads(Math::sin, 0d, Math.PI/2, COUNT_OF_PROCESSORS_IN_SYSTEM);
         long timeOfFinish2 = System.currentTimeMillis();
 
-        System.out.printf("Single thread: %f Time: %d\n", areaOfFunction2, timeOfFinish2-timeOfStart2);
+        System.out.printf("Threads:       %f Time: %d\n", areaOfFunction2, timeOfFinish2-timeOfStart2);
 
         //Расчет с использованием пулов(FixedThreadPool c количеством потоков равным 10)
         //несколько раз считаем для того, чтобы виртуальная машина оптимизировала код
@@ -35,9 +35,17 @@ public class StandardLibraries {
         double areaOfFunction3 = Integral.calculatingInMultiThreadWithPool(Math::sin, 0d, Math.PI/2, COUNT_OF_PROCESSORS_IN_SYSTEM);
         long timeOfFinish3 = System.currentTimeMillis();
 
-        System.out.printf("Single thread: %f Time: %d\n", areaOfFunction3, timeOfFinish3-timeOfStart3);
+        System.out.printf("Pool:          %f Time: %d\n", areaOfFunction3, timeOfFinish3-timeOfStart3);
 
+        //Расчет с использованием стрима
+        //несколько раз считаем для того, чтобы виртуальная машина оптимизировала код
+        Integral.calculatingInSingleThread(Math::sin, 0d, Math.PI/2);
+        Integral.calculatingInSingleThread(Math::sin, 0d, Math.PI/2);
+        long timeOfStart4 = System.currentTimeMillis();
+        double areaOfFunction4 = Integral.calculatingInMultiThreadWithStream(Math::sin, 0d, Math.PI/2, COUNT_OF_PROCESSORS_IN_SYSTEM);
+        long timeOfFinish4 = System.currentTimeMillis();
 
+        System.out.printf("Stream:        %f Time: %d\n", areaOfFunction4, timeOfFinish4-timeOfStart4);
     }
 
 }

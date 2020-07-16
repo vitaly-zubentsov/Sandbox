@@ -100,6 +100,42 @@ public class Integral {
         return sumOfArea;
     }
 
+    public static double calculatingInMultiThreadWithStream(DoubleFunction<Double> doubleFunction, double startPointOfRange, double endPointOfRange, int countOfThreads) throws Exception {
+
+        //обработка кореектности входных данных
+        if (startPointOfRange > endPointOfRange) {
+            return 0;
+        }
+        if (countOfThreads == 0) {
+            throw new Exception("Count of threads can't equals to zero");
+        }
+        if (countOfThreads < 0) {
+            throw new Exception("Count of threads can't be negative number");
+        }
+
+        class CoordinatesOfSubArea {
+            double startPointOfRangeForSubrange;
+            double endPointOfRangeForSubrange;
+
+             CoordinatesOfSubArea(double startPointOfRangeForSubrange,double endPointOfRangeForSubrange){
+                 this.startPointOfRangeForSubrange = startPointOfRangeForSubrange;
+                 this.endPointOfRangeForSubrange = endPointOfRangeForSubrange;
+             }
+        }
+
+        Collection<CoordinatesOfSubArea> coordinatesOfSubAreas = new ArrayList<>();
+        double widthOfSubrange = (endPointOfRange - startPointOfRange) / countOfThreads;
+        for(int i=0; i<countOfThreads; i++) {
+            double startPointOfRangeForSubrange = startPointOfRange + i * widthOfSubrange;
+            double endPointOfRangeForSubrange = startPointOfRangeForSubrange + widthOfSubrange;
+            coordinatesOfSubAreas.add(new CoordinatesOfSubArea(startPointOfRangeForSubrange,endPointOfRangeForSubrange));
+        }
+
+       int countOfStepsForSubrange = STEPS / countOfThreads;
+
+       return coordinatesOfSubAreas.parallelStream().mapToDouble((o) -> calculatingInSingleThread(doubleFunction, o.startPointOfRangeForSubrange, o.endPointOfRangeForSubrange, countOfStepsForSubrange)).sum();
+    }
+
 
 }
 
