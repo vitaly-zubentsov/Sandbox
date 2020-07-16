@@ -1,11 +1,14 @@
 package threads.standardlibraries;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.DoubleAdder;
 import java.util.function.DoubleFunction;
 
 public class Integral {
 
-    public static final int STEPS = 100000000;
+    public static final int STEPS = 10000000;
 
     public static double calculatingInSingleThread(DoubleFunction<Double> doubleFunction, double startPointOfRange, double endPointOfRange) {
 
@@ -45,23 +48,58 @@ public class Integral {
 
 
         int countOfStepsForSubrange = STEPS / countOfThreads;
-        double widthOfSubrange = (endPointOfRange - startPointOfRange)/countOfThreads;
+        double widthOfSubrange = (endPointOfRange - startPointOfRange) / countOfThreads;
 
         Thread[] threadsForCalculation = new Thread[countOfThreads];
         final DoubleAdder sumOfArea = new DoubleAdder();
         for (int i = 0; i < countOfThreads; i++) {
 
-            double startPointOfRangeForSubrange = startPointOfRange + i*widthOfSubrange;
-            double endPointOfRangeForSubrange= startPointOfRangeForSubrange+widthOfSubrange;
+            double startPointOfRangeForSubrange = startPointOfRange + i * widthOfSubrange;
+            double endPointOfRangeForSubrange = startPointOfRangeForSubrange + widthOfSubrange;
 
-            threadsForCalculation[i] = new Thread( () ->  sumOfArea.add(calculatingInSingleThread(doubleFunction, startPointOfRangeForSubrange, endPointOfRangeForSubrange, countOfStepsForSubrange)));
+            threadsForCalculation[i] = new Thread(() -> sumOfArea.add(calculatingInSingleThread(doubleFunction, startPointOfRangeForSubrange, endPointOfRangeForSubrange, countOfStepsForSubrange)));
             threadsForCalculation[i].start();
         }
 
-        for (int i = 1; i<countOfThreads; i++) {
+        for (int i = 1; i < countOfThreads; i++) {
             threadsForCalculation[i].join();
         }
         return sumOfArea.doubleValue();
     }
+
+    public static double calculatingInMultiThreadWithPool(DoubleFunction<Double> doubleFunction, double startPointOfRange, double endPointOfRange, int countOfThreads) throws Exception {
+
+        //обработка кореектности входных данных
+        if (startPointOfRange > endPointOfRange) {
+            return 0;
+        }
+        if (countOfThreads == 0) {
+            throw new Exception("Count of threads can't equals to zero");
+        }
+        if (countOfThreads < 0) {
+            throw new Exception("Count of threads can't be negative number");
+        }
+
+        int countOfStepsForSubrange = STEPS / countOfThreads;
+        double widthOfSubrange = (endPointOfRange - startPointOfRange) / countOfThreads;
+
+        ExecutorService poolForCalculating = Executors.newFixedThreadPool(countOfThreads);
+        Collection<Future<Double>> tasks = new ArrayList<>();
+        for (int i = 0; i < countOfThreads; i++) {
+            double startPointOfRangeForSubrange = startPointOfRange + i * widthOfSubrange;
+            double endPointOfRangeForSubrange = startPointOfRangeForSubrange + widthOfSubrange;
+            tasks.add(poolForCalculating.submit(() -> calculatingInSingleThread(doubleFunction, startPointOfRangeForSubrange, endPointOfRangeForSubrange, countOfStepsForSubrange)));
+        }
+
+        double sumOfArea = 0d;
+        for (Future<Double> task : tasks) {
+            sumOfArea += task.get();
+        }
+
+        poolForCalculating.shutdown();
+        return sumOfArea;
+    }
+
+
 }
 
