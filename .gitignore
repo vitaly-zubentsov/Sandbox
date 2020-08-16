@@ -1,0 +1,13 @@
+# Project exclude paths
+/.gradle/
+/build/
+/out/
+/out/production/classes/
+
+#eclipse ignore
+# eclipse project file
+.settings/
+.classpath
+.project
+/.metadata/
+bin
