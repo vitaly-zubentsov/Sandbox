@@ -21,12 +21,15 @@ public class DBselect {
 		String partOfSearchingCourse = sc.nextLine();
 
 		try (Connection conn = DriverManager.getConnection(CONNETION_STRING);) {
-			Statement cmd =  conn.createStatement();
+			
+			//Подготавливаем запрос с последующей подстановкой текста введённого пользователем
+			String sql = "SELECT name, description, lenght FROM courses WHERE name LIKE ? ORDER BY lenght";
+			PreparedStatement cmd = conn.prepareStatement(sql);
+			cmd.setString(1, "%" + partOfSearchingCourse + "%" );
+			
 			//Выводим поля таблицы курсов при 
 			//совпадении параметра столбца name с подстрокой, введённой пользователем
-			String sql = "SELECT name, description, lenght FROM courses WHERE name LIKE '%" 
-					+ partOfSearchingCourse +"%' ORDER BY lenght";
-			ResultSet result = cmd.executeQuery(sql);
+			ResultSet result = cmd.executeQuery();
 			while (result.next())
 			{
 				String name = result.getString("name");
