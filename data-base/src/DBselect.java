@@ -14,9 +14,7 @@ public class DBselect {
 
 		//Загружаем драйвер
 		Class.forName(DRIVER_NAME);
-
-
-
+			
 
 		try (Connection conn = DriverManager.getConnection(CONNETION_STRING);) {
 
@@ -43,7 +41,12 @@ public class DBselect {
 				String name = result.getString("name");
 				String description = result.getString("description");
 				int  lenght = result.getInt("lenght");
+				//Так как lenght простой тип необходима проверка на null
+				if(!result.wasNull()) {
 				System.out.printf("%-10s : %-10s : %d \n",name, description,lenght);
+				} else {
+					System.out.printf("%-10s : %-10s : \n",name, description);	
+				}
 			}
 			result.close();
 		} catch (SQLException e) {
