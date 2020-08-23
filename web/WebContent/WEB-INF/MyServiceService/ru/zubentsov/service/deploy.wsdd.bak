@@ -1,0 +1,28 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from MyServiceService WSDL service -->
+
+  <service name="MyService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.zubentsov.ru"/>
+      <parameter name="wsdlServiceElement" value="MyServiceService"/>
+      <parameter name="schemaQualified" value="http://service.zubentsov.ru"/>
+      <parameter name="wsdlServicePort" value="MyService"/>
+      <parameter name="className" value="ru.zubentsov.service.MyServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="MyService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getTime" qname="operNS:getTime" xmlns:operNS="http://service.zubentsov.ru" returnQName="retNS:getTimeReturn" xmlns:retNS="http://service.zubentsov.ru" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <parameter name="allowedMethods" value="getTime"/>
+
+  </service>
+</deployment>
